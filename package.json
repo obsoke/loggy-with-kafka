@@ -1,12 +1,23 @@
 {
   "name": "pumpup-challenge",
   "version": "1.0.0",
-  "description": "",
+  "description": "logging api",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "",
     "start": "node server.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Dale Karp <dale@dale.io>",
+  "license": "MIT",
+  "devDependencies": {
+    "jshint": "^2.8.0",
+    "mocha": "^2.2.5",
+    "should": "^7.0.4"
+  },
+  "dependencies": {
+    "koa": "^1.0.0",
+    "pg": "^4.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.6.0"
+  }
 }
