@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha",
-    "lint": "./node_modules/.bin/jshint ./server.js",
+    "lint": "./node_modules/.bin/jshint ./*.js ./test/*.js ./routes/*.js",
     "start": "node server.js"
   },
   "author": "Dale Karp <dale@dale.io>",
