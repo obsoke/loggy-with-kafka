@@ -34,6 +34,25 @@ module.exports = function (deps) {
     };
 
     var userUpdateRoute = function* (next) {
+        var data = this.request.body;
+        if (!data) {
+            this.throw(400, 'Requires at least email property');
+        }
+        // delete email field from data if it exists
+        if (data.email) delete data.email;
+
+        var user = yield User.findById(this.params.id);
+
+        if (!user) {
+            this.throw(404, 'User not found');
+        }
+
+        yield user.update(data);
+        this.response.status = 201;
+        this.response.body = {
+            success: true,
+            data: user
+        };
     };
 
     return {
