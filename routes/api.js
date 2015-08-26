@@ -18,11 +18,13 @@ module.exports = function (deps) {
             this.throw(400, 'Requires name, email and password properties.');
         }
 
-        var user = yield User.create(data);
+        var user = yield User.create(data).catch(function (err) {});
 
         if (!user) {
-            this.throw(500, 'Could not create user');
+            this.throw(406, 'Could not create user');
         }
+
+        // todo: create log request
 
         this.response.status = 201;
         this.response.body = {
