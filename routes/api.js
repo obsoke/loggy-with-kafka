@@ -1,27 +1,42 @@
-'use strict';
+module.exports = function (deps) {
+    'use strict';
 
-var logRoute = function* (next) {
-    /* create log request from data.
-     it shoud look like:
-     { actionId [, userId] [, data] }
-    */
-    this.body = { success: true };
-};
+    // unpack deps
+    var User = deps.User;
 
-var userCreateRoute = function* (next) {
-    // user created
-    this.response.status = 201;
-    this.response.body = {
-        success: true,
-        data: {}
+    var logRoute = function* (next) {
+        /* create log request from data.
+         it shoud look like:
+         { actionId [, userId] [, data] }
+         */
+        this.body = { success: true };
     };
-};
 
-var userUpdateRoute = function* (next) {
-};
+    var userCreateRoute = function* (next) {
+        var data = this.request.body;
+        if (!data || !data.name || !data.email || !data.password) {
+            this.throw(400, 'Requires name, email and password properties.');
+        }
 
-module.exports = {
-    logRoute,
-    userCreateRoute,
-    userUpdateRoute
+        var user = yield User.create(data);
+
+        if (!user) {
+            this.throw(500, 'Could not create user');
+        }
+
+        this.response.status = 201;
+        this.response.body = {
+            success: true,
+            data: user
+        };
+    };
+
+    var userUpdateRoute = function* (next) {
+    };
+
+    return {
+        logRoute,
+        userCreateRoute,
+        userUpdateRoute
+    };
 };

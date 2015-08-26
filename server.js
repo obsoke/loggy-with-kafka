@@ -4,16 +4,22 @@ var koa = require('koa');
 var app = koa();
 var router = require('koa-router');
 var bodyParser = require('koa-bodyparser');
+var Sequelize = require('sequelize');
 
 var PORT = process.env.PORT || 3000;
+var postgresURL = 'postgres://pumpup:pumpup@localhost:5432/pumpup_db';
 
 // sequelize setup
+var sequelize = new Sequelize(postgresURL);
 
 // koa middleware setup
 app.use(bodyParser());
 
+// define models
+var User = require('./models/user')({sequelize, Sequelize});
+
 // define routes
-var apiRoutes = require('./routes/api');
+var apiRoutes = require('./routes/api')({User});
 var API = new router();
 API
     .post('/log', apiRoutes.logRoute)
@@ -30,6 +36,7 @@ if (!module.parent) {
 
 // export app & port for test suite
 module.exports = {
-    app: app,
-    port: PORT
+    app,
+    port: PORT,
+    User
 };
