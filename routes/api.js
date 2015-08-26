@@ -10,6 +10,7 @@ module.exports = function (deps) {
          { actionId [, userId] [, data] }
          */
         this.body = { success: true };
+        yield next;
     };
 
     var userCreateRoute = function* (next) {
