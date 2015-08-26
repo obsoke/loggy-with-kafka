@@ -94,8 +94,7 @@ describe('Pump Up API Routes', function() {
 
             makeRequest('/classes/user', 'POST', user, function(err, resp, body) {
                 resp.should.have.property('statusCode', 201);
-                body.should.have.property('success', true);
-                body.data.should.have.property('name').which.is.equal(user.name);
+                body.should.have.property('name').which.is.equal(user.name);
                 done();
             });
         });
@@ -121,51 +120,67 @@ describe('Pump Up API Routes', function() {
         });
     });
 
-    // describe('PUT /classes/user/:id', function () {
-    //     before(function () {
-    //         var user = {
-    //             name: 'jon',
-    //             email: 'jon@jonny.io',
-    //             password: '12345'
-    //         };
+    describe('PUT /classes/user/:id', function () {
+        var userId; // needed to make update requests against
 
-    //         makeRequest('/classes/user', 'POST', user, function(err, resp, body) {
-    //             // todo: status code should = 201
-    //             // todo: body.success = true
-    //             // todo: body.data should = base body object
-    //         });
-    //     });
+        before(function (done) {
+            var user = {
+                name: 'jon',
+                email: 'jon@jonny.io',
+                password: '12345'
+            };
 
-    //     it('{password}', function (done) {
-    //         var user = {
-    //             password: '56789'
-    //         };
+            makeRequest('/classes/user', 'POST', user, function(err, resp, body) {
+                userId = body.id;
+                done();
+            });
+        });
 
-    //         makeRequest('/classes/user', 'POST', user, function(err, resp, body) {
-    //             // todo: status code should = 200
-    //             // todo: body.success = true
-    //             // todo: body.data.password should = '56789'
-    //             done();
-    //         });
-    //     });
+        it('{password, name}', function (done) {
+            var user = {
+                name: 'jim',
+                password: '56789'
+            };
 
-    //     it('{password, email}', function (done) {
-    //         var user = {
-    //             email: 'jon@gmail.com',
-    //             password: '56789'
-    //         };
+            makeRequest('/classes/user/' + userId, 'PUT', user, function(err, resp, body) {
+                resp.should.have.property('statusCode', 200);
+                body.should.have.property('password').which.is.equal(user.password);
+                body.should.have.property('name').which.is.equal(user.name);
+                done();
+            });
+        });
 
-    //         makeRequest('/classes/user', 'POST', user, function(err, resp, body) {
-    //             // todo: status code should = 200
-    //             // todo: body.success = true
-    //             // todo: body.data.password should = '56789'
-    //             // todo: body.data.email should = 'jon@jonny.io'
-    //             done();
-    //         });
-    //     });
+        it('{password, email}', function (done) {
+            var user = {
+                email: 'jon@gmail.com',
+                password: '999333'
+            };
 
-    //     after(function () {
-    //         // todo: delete dummy user
-    //     });
-    // });
+            makeRequest('/classes/user/' + userId, 'PUT', user, function(err, resp, body) {
+                resp.should.have.property('statusCode', 200);
+                body.should.have.property('password').which.is.equal(user.password);
+                body.should.have.property('email').which.is.equal('jon@jonny.io');
+                done();
+            });
+        });
+
+        it('non-existent user', function (done) {
+            var user = {
+                email: 'jon@gmail.com',
+                password: '999333'
+            };
+
+            makeRequest('/classes/user/9932423', 'PUT', user, function(err, resp, body) {
+                resp.should.have.property('statusCode', 404);
+                done();
+            });
+        });
+
+        after(function (done) {
+            User.findOne({where: {email: 'jon@jonny.io'}}).then(function (user) {
+                user.destroy();
+                done();
+            });
+        });
+    });
 });

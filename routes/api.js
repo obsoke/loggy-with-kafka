@@ -28,10 +28,7 @@ module.exports = function (deps) {
         // todo: create log request
 
         this.response.status = 201;
-        this.response.body = {
-            success: true,
-            data: user
-        };
+        this.response.body = user;
     };
 
     var userUpdateRoute = function* (next) {
@@ -43,17 +40,19 @@ module.exports = function (deps) {
         if (data.email) delete data.email;
 
         var user = yield User.findById(this.params.id);
-
         if (!user) {
             this.throw(404, 'User not found');
         }
 
-        yield user.update(data);
-        this.response.status = 201;
-        this.response.body = {
-            success: true,
-            data: user
-        };
+        var updated = yield user.update(data);
+        if (!updated) {
+            this.throw(500, 'Failed to update user');
+        }
+
+        // todo: create log request
+
+        this.response.status = 200;
+        this.response.body = user;
     };
 
     return {
