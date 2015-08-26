@@ -16,10 +16,10 @@ var sequelize = new Sequelize(postgresURL);
 app.use(bodyParser());
 
 // define models
-var User = require('./models/user')({sequelize, Sequelize});
+var User = require('./models/user')({sequelize: sequelize, Sequelize: Sequelize});
 
 // define routes
-var apiRoutes = require('./routes/api')({User});
+var apiRoutes = require('./routes/api')({User: User});
 var API = new router();
 API
     .post('/log', apiRoutes.logRoute)
@@ -36,7 +36,7 @@ if (!module.parent) {
 
 // export app & port for test suite
 module.exports = {
-    app,
+    app: app,
     port: PORT,
-    User
+    User: User
 };

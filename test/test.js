@@ -31,18 +31,17 @@ describe('Pump Up API Routes', function() {
         app.listen(port);
     });
 
-    // describe('POST /log', function () {
-    //     it('{actionId}', function (done) {
-    //         var log = {
-    //             actionId: 'LOG_TEST'
-    //         };
+    describe('POST /log', function () {
+        it('{actionId}', function (done) {
+            var log = {
+                actionId: 'LOG_TEST'
+            };
 
-    //         makeRequest('/log', 'POST', log, function(err, resp, body) {
-    //             resp.should.have.property('statusCode', 200);
-    //             body.should.have.property('success', true);
-    //             done();
-    //         });
-    //     });
+            makeRequest('/log', 'POST', log, function(err, resp, body) {
+                resp.should.have.property('statusCode', 200);
+                done();
+            });
+        });
 
     //     it('{actionId, userId}', function (done) {
     //         var log = {
@@ -73,16 +72,15 @@ describe('Pump Up API Routes', function() {
     //         });
     //     });
 
-    //     it('{}', function (done) {
-    //         var log = {};
+        it('{}', function (done) {
+            var log = {};
 
-    //         makeRequest('/log', 'POST', log, function(err, resp, body) {
-    //             resp.should.have.property('statusCode', 400);
-    //             body.should.have.property('success', true);
-    //             done();
-    //         });
-    //     });
-    // });
+            makeRequest('/log', 'POST', log, function(err, resp, body) {
+                resp.should.have.property('statusCode', 400);
+                done();
+            });
+        });
+    });
 
     describe('POST /classes/user', function () {
         it('{name, email, password}', function (done) {

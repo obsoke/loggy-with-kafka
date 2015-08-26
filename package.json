@@ -4,9 +4,9 @@
   "description": "logging api",
   "main": "server.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha",
-    "lint": "./node_modules/.bin/jshint ./*.js ./test/*.js ./routes/*.js ./models/*.js",
-    "start": "node server.js"
+    "test": "./node_modules/.bin/mocha --harmony",
+    "lint": "./node_modules/.bin/jshint ./*.js ./test/*.js ./routes/*.js ./models/*.js ./controllers/*.js",
+    "start": "node --harmony server.js"
   },
   "author": "Dale Karp <dale@dale.io>",
   "license": "MIT",
@@ -17,6 +17,7 @@
     "should": "^7.0.4"
   },
   "dependencies": {
+    "kafka-node": "^0.2.27",
     "koa": "^1.0.0",
     "koa-bodyparser": "^2.0.1",
     "koa-router": "^5.1.2",
