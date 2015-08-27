@@ -34,16 +34,22 @@ var logConsumer = function (message) {
 
     if (!rawLogData) throw Error('[loggy.js] No log data found!');
 
-    var logData = JSON.parse(rawLogData);
 
-    var logString = logData.actionId;
-    if (logData.userId) logString += '::' + logData.userId;
-    if (logData.data) logString += '->' + JSON.stringify(logData.data);
-    logString += '\n';
+    try {
+        var logData = JSON.parse(rawLogData);
 
-    fs.appendFile('./app.log', logString, function(err) {
-        if (err) throw Error('[loggy.js] Error writing log to file!');
-    });
+        var logString = logData.actionId;
+        if (logData.userId) logString += '::' + logData.userId;
+        if (logData.data) logString += '->' + JSON.stringify(logData.data);
+        logString += '\n';
+
+        fs.appendFile('./app.log', logString, function(err) {
+            if (err) throw Error('[loggy.js] Error writing log to file!');
+        });
+    } catch(e) {
+        console.log('[loggy.js] Error writing to log:');
+        console.log(e);
+    }
 };
 
 // set up consumer

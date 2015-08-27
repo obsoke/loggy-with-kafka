@@ -23,13 +23,7 @@ module.exports = function(deps) {
         freezeTableName: true
     });
 
-    // User.sync({force: true}).then(function () {
-    //     return User.create({
-    //         name: 'dale',
-    //         email: 'dale@dale.io',
-    //         password: '12345'
-    //     });
-    // });
+    User.sync();
 
     return User;
 };
