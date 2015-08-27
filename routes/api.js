@@ -1,6 +1,7 @@
 module.exports = function (deps) {
     'use strict';
 
+    var request = require('request-promise');
     var loggy = require('../controllers/loggy');
 
     // unpack deps
@@ -32,7 +33,17 @@ module.exports = function (deps) {
             this.throw(406, 'Could not create user');
         }
 
-        // todo: create log request
+        // create log request
+        var logData = {
+            actionId: 'USER_SIGNUP',
+            data: data
+        };
+        yield request({
+            url: 'http://localhost:3000/log',
+            method: 'POST',
+            json: true,
+            body: logData
+        });
 
         this.response.status = 201;
         this.response.body = user;
@@ -56,7 +67,18 @@ module.exports = function (deps) {
             this.throw(500, 'Failed to update user');
         }
 
-        // todo: create log request
+        // create log request
+        var logData = {
+            actionId: 'USER_EDIT_PROFILE',
+            userId: user.id,
+            data: data
+        };
+        yield request({
+            url: 'http://localhost:3000/log',
+            method: 'POST',
+            json: true,
+            body: logData
+        });
 
         this.response.status = 200;
         this.response.body = user;

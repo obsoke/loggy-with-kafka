@@ -1,6 +1,7 @@
 'use strict';
 
-var kafka = require('kafka-node'),
+var fs = require('fs'),
+    kafka = require('kafka-node'),
     Producer = kafka.Producer,
     Consumer= kafka.Consumer,
     prodClient = new kafka.Client('localhost:2181/'),
@@ -24,12 +25,25 @@ var logProducer = function (message) {
         messages: JSON.stringify(message)
     }];
 
-    producer.send(payload, function (err, data) {
-    });
+    producer.send(payload, function (err, data) {});
 };
 
 var logConsumer = function (message) {
     // todo: write log to app.log file
+    var rawLogData = message.value;
+
+    if (!rawLogData) throw Error('[loggy.js] No log data found!');
+
+    var logData = JSON.parse(rawLogData);
+
+    var logString = logData.actionId;
+    if (logData.userId) logString += '::' + logData.userId;
+    if (logData.data) logString += '->' + JSON.stringify(logData.data);
+    logString += '\n';
+
+    fs.appendFile('./app.log', logString, function(err) {
+        if (err) throw Error('[loggy.js] Error writing log to file!');
+    });
 };
 
 // set up consumer
