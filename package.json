@@ -1,29 +1,31 @@
 {
-  "name": "pumpup-challenge",
-  "version": "1.0.0",
-  "description": "logging api",
-  "main": "server.js",
-  "scripts": {
-    "test": "./node_modules/.bin/mocha --harmony",
-    "lint": "./node_modules/.bin/jshint ./*.js ./test/*.js ./routes/*.js ./models/*.js ./controllers/*.js",
-    "start": "node --harmony server.js"
-  },
-  "author": "Dale Karp <dale@dale.io>",
-  "license": "MIT",
-  "devDependencies": {
-    "jshint": "^2.8.0",
-    "mocha": "^2.2.5",
-    "request": "^2.61.0",
-    "should": "^7.0.4"
-  },
-  "dependencies": {
-    "kafka-node": "^0.2.27",
-    "koa": "^1.0.0",
-    "koa-bodyparser": "^2.0.1",
-    "koa-router": "^5.1.2",
-    "pg": "^4.4.1",
-    "pg-hstore": "^2.3.2",
-    "request-promise": "^0.4.3",
-    "sequelize": "^3.6.0"
-  }
+    "name": "pumpup-challenge",
+    "version": "1.0.0",
+    "description": "logging api",
+    "main": "server.js",
+    "scripts": {
+        "test": "./node_modules/.bin/mocha --harmony",
+        "lint": "./node_modules/.bin/jshint ./*.js ./test/*.js ./routes/*.js ./models/*.js ./controllers/*.js",
+        "start": "node --harmony server.js",
+        "postinstall": "./scripts/install.sh",
+        "prestart": "./scripts/run.sh"
+    },
+    "author": "Dale Karp <dale@dale.io>",
+    "license": "MIT",
+    "devDependencies": {
+        "jshint": "^2.8.0",
+        "mocha": "^2.2.5",
+        "request": "^2.61.0",
+        "should": "^7.0.4"
+    },
+    "dependencies": {
+        "kafka-node": "^0.2.27",
+        "koa": "^1.0.0",
+        "koa-bodyparser": "^2.0.1",
+        "koa-router": "^5.1.2",
+        "pg": "^4.4.1",
+        "pg-hstore": "^2.3.2",
+        "request-promise": "^0.4.3",
+        "sequelize": "^3.6.0"
+    }
 }
