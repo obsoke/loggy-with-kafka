@@ -1,9 +1,9 @@
 /* jshint mocha: true */
-
 'use strict';
+
 var server = require('../server');
 var app = server.app;
-var request = require('request');
+var request = require('request-promise');
 var should = require('should');
 var Sequelize = require('sequelize');
 
@@ -43,34 +43,32 @@ describe('Pump Up API Routes', function() {
             });
         });
 
-    //     it('{actionId, userId}', function (done) {
-    //         var log = {
-    //             actionId: 'LOG_TEST',
-    //             userId: 1
-    //         };
+        it('{actionId, userId}', function (done) {
+            var log = {
+                actionId: 'LOG_TEST',
+                userId: 1
+            };
 
-    //         makeRequest('/log', 'POST', log, function(err, resp, body) {
-    //             resp.should.have.property('statusCode', 200);
-    //             body.should.have.property('success', true);
-    //             done();
-    //         });
-    //     });
+            makeRequest('/log', 'POST', log, function(err, resp, body) {
+                resp.should.have.property('statusCode', 200);
+                done();
+            });
+        });
 
-    //     it('{actionId, userId, data}', function (done) {
-    //         var log = {
-    //             actionId: 'LOG_TEST',
-    //             userId: 1,
-    //             data: {
-    //                 hello: 'world'
-    //             }
-    //         };
+        it('{actionId, userId, data}', function (done) {
+            var log = {
+                actionId: 'LOG_TEST',
+                userId: 1,
+                data: {
+                    hello: 'world'
+                }
+            };
 
-    //         makeRequest('/log', 'POST', log, function(err, resp, body) {
-    //             resp.should.have.property('statusCode', 200);
-    //             body.should.have.property('success', true);
-    //             done();
-    //         });
-    //     });
+            makeRequest('/log', 'POST', log, function(err, resp, body) {
+                resp.should.have.property('statusCode', 200);
+                done();
+            });
+        });
 
         it('{}', function (done) {
             var log = {};

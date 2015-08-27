@@ -27,6 +27,8 @@ API
     .put('/classes/user/:id', apiRoutes.userUpdateRoute);
 app
     .use(API.routes());
+// 404 route is given to us for free by koa
+// on any non-defined route
 
 // listen on PORT
 if (!module.parent) {

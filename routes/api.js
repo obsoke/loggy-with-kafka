@@ -38,12 +38,18 @@ module.exports = function (deps) {
             actionId: 'USER_SIGNUP',
             data: data
         };
-        yield request({
+        var logResponse = yield request({
             url: 'http://localhost:3000/log',
             method: 'POST',
             json: true,
             body: logData
         });
+        if (!logResponse) {
+            /*
+             even if logging fails, we still want users
+             to be able to register. maybe we check & reset kafka/zookeeper on failure?
+             */
+        }
 
         this.response.status = 201;
         this.response.body = user;
@@ -73,12 +79,18 @@ module.exports = function (deps) {
             userId: user.id,
             data: data
         };
-        yield request({
+        var logResponse = yield request({
             url: 'http://localhost:3000/log',
             method: 'POST',
             json: true,
             body: logData
         });
+        if (!logResponse) {
+            /*
+             even if logging fails, we still want users
+             to be able to register. maybe we check & reset kafka/zookeeper on failure?
+             */
+        }
 
         this.response.status = 200;
         this.response.body = user;
