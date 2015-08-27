@@ -1,7 +1,7 @@
 module.exports = function (deps) {
     'use strict';
 
-    var kafkaController = require('../controllers/kafka');
+    var loggy = require('../controllers/loggy');
 
     // unpack deps
     var User = deps.User;
@@ -12,8 +12,7 @@ module.exports = function (deps) {
             this.throw(400, 'Log requires at least actionId');
         }
 
-        // send message to kafka
-        kafkaController.log(data);
+        loggy.log(data);
 
         this.response.status = 200;
         this.response.body = data;
