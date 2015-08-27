@@ -3,8 +3,8 @@
 var kafka = require('kafka-node'),
     Producer = kafka.Producer,
     Consumer= kafka.Consumer,
-    prodClient = new kafka.Client(),
-    consClient = new kafka.Client(),
+    prodClient = new kafka.Client('localhost:2181/'),
+    consClient = new kafka.Client('localhost:2181/'),
     producer = new Producer(prodClient),
     consumer = new Consumer(consClient, [{topic: 'logs'}]);
 
@@ -25,7 +25,6 @@ var logProducer = function (message) {
     }];
 
     producer.send(payload, function (err, data) {
-        console.log(data);
     });
 };
 
