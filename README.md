@@ -15,7 +15,9 @@ Kafka and PostgreSQL manually.
 
 ## Usage
 Start the API server with `npm start`.
+
 You can run tests with `npm test`.
+
 Run the linter with `npm run lint`.
 
 
