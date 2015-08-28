@@ -21,9 +21,9 @@ EOF
 sudo apt-get -q -y install postgresql postgresql-contrib
 # setup a db for pumpup
 sudo su postgres <<EOF
-psql -c "CREATE DATABASE pumpup_db;"
-psql -c "CREATE USER pumpup WITH PASSWORD 'pumpup';"
-psql -c "GRANT ALL PRIVILEGES ON DATABASE pumpup_db to pumpup;"
+psql -c "CREATE DATABASE testy_db;"
+psql -c "CREATE USER testy WITH PASSWORD 'testy';"
+psql -c "GRANT ALL PRIVILEGES ON DATABASE testy_db to testy;"
 EOF
 
 touch ../app.log
