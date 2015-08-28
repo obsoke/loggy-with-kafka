@@ -1,5 +1,5 @@
 {
-    "name": "pumpup-challenge",
+    "name": "loggy-with-kafka",
     "version": "1.0.0",
     "description": "logging api",
     "main": "server.js",

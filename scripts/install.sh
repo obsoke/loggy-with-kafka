@@ -19,7 +19,7 @@ EOF
 ## POSTGRES
 # install postgres
 sudo apt-get -q -y install postgresql postgresql-contrib
-# setup a db for pumpup
+# setup db
 sudo su postgres <<EOF
 psql -c "CREATE DATABASE testy_db;"
 psql -c "CREATE USER testy WITH PASSWORD 'testy';"
