@@ -1,12 +1,13 @@
 module.exports = function (deps) {
     'use strict';
 
-    var request = require('request-promise');
-    var loggy = require('../controllers/loggy');
+    var request = require('request-promise'),
+        loggy = require('../controllers/loggy')({});
 
     // unpack deps
     var User = deps.User;
 
+    // POST /log
     var logRoute = function* (next) {
         var data = this.request.body;
         if (!data || !data.actionId) {
@@ -21,6 +22,7 @@ module.exports = function (deps) {
         yield next;
     };
 
+    // POST /classes/user
     var userCreateRoute = function* (next) {
         var data = this.request.body;
         if (!data || !data.name || !data.email || !data.password) {
@@ -55,6 +57,7 @@ module.exports = function (deps) {
         this.response.body = user;
     };
 
+    // PUT /classes/user/:id
     var userUpdateRoute = function* (next) {
         var data = this.request.body;
         if (!data) {
