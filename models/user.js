@@ -9,18 +9,29 @@ module.exports = function (deps) {
     var User = sequelize.define('user', {
         // attributes
         name: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false
         },
         email: {
             type: Sequelize.STRING,
-            unique: true
+            unique: true,
+            allowNull: false
         },
         password: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false
         }
     }, {
         // options
         freezeTableName: true
+    });
+
+    User.beforeUpdate(function (user, options, fn) {
+        if (user._changed.email) {
+            user.set('email', user.previous('email'));
+        }
+
+        return fn();
     });
 
     // make sure table exists
