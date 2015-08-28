@@ -6,11 +6,11 @@ var router = require('koa-router');
 var bodyParser = require('koa-bodyparser');
 var Sequelize = require('sequelize');
 
-var PORT = process.env.PORT || 3000;
-var postgresURL = 'postgres://pumpup:pumpup@localhost:5432/pumpup_db';
+var config = require('./config');
+var PORT = process.env.PORT || config.port || 3000;
 
 // sequelize setup
-var sequelize = new Sequelize(postgresURL);
+var sequelize = new Sequelize(config.postgresURL);
 
 // koa middleware setup
 app.use(bodyParser());
