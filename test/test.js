@@ -25,19 +25,23 @@ var makeRequest = function makeRequest(path, method, data, callback) {
     }, callback);
 };
 
-describe('Pump Up API Routes', function() {
+describe('Unit Tests', function () {
+    
+});
+describe('Integration Tests', function () {
     // before all tests, start the API
     before(function () {
         app.listen(port);
     });
 
     describe('POST /log', function () {
+        // testing different payloads
         it('{actionId}', function (done) {
             var log = {
                 actionId: 'LOG_TEST'
             };
 
-            makeRequest('/log', 'POST', log, function(err, resp, body) {
+            makeRequest('/log', 'POST', log, function (err, resp, body) {
                 resp.should.have.property('statusCode', 200);
                 done();
             });
@@ -49,7 +53,7 @@ describe('Pump Up API Routes', function() {
                 userId: 1
             };
 
-            makeRequest('/log', 'POST', log, function(err, resp, body) {
+            makeRequest('/log', 'POST', log, function (err, resp, body) {
                 resp.should.have.property('statusCode', 200);
                 done();
             });
@@ -64,7 +68,7 @@ describe('Pump Up API Routes', function() {
                 }
             };
 
-            makeRequest('/log', 'POST', log, function(err, resp, body) {
+            makeRequest('/log', 'POST', log, function (err, resp, body) {
                 resp.should.have.property('statusCode', 200);
                 done();
             });
@@ -73,7 +77,7 @@ describe('Pump Up API Routes', function() {
         it('{}', function (done) {
             var log = {};
 
-            makeRequest('/log', 'POST', log, function(err, resp, body) {
+            makeRequest('/log', 'POST', log, function (err, resp, body) {
                 resp.should.have.property('statusCode', 400);
                 done();
             });
@@ -88,7 +92,7 @@ describe('Pump Up API Routes', function() {
                 password: '12345'
             };
 
-            makeRequest('/classes/user', 'POST', user, function(err, resp, body) {
+            makeRequest('/classes/user', 'POST', user, function (err, resp, body) {
                 resp.should.have.property('statusCode', 201);
                 body.should.have.property('name').which.is.equal(user.name);
                 done();
@@ -101,7 +105,7 @@ describe('Pump Up API Routes', function() {
                 email: 'jon@jonny.io'
             };
 
-            makeRequest('/classes/user', 'POST', user, function(err, resp, body) {
+            makeRequest('/classes/user', 'POST', user, function (err, resp, body) {
                 resp.should.have.property('statusCode', 400);
                 done();
             });
@@ -126,7 +130,7 @@ describe('Pump Up API Routes', function() {
                 password: '12345'
             };
 
-            makeRequest('/classes/user', 'POST', user, function(err, resp, body) {
+            makeRequest('/classes/user', 'POST', user, function (err, resp, body) {
                 userId = body.id;
                 done();
             });
@@ -138,7 +142,7 @@ describe('Pump Up API Routes', function() {
                 password: '56789'
             };
 
-            makeRequest('/classes/user/' + userId, 'PUT', user, function(err, resp, body) {
+            makeRequest('/classes/user/' + userId, 'PUT', user, function (err, resp, body) {
                 resp.should.have.property('statusCode', 200);
                 body.should.have.property('password').which.is.equal(user.password);
                 body.should.have.property('name').which.is.equal(user.name);
@@ -152,7 +156,7 @@ describe('Pump Up API Routes', function() {
                 password: '999333'
             };
 
-            makeRequest('/classes/user/' + userId, 'PUT', user, function(err, resp, body) {
+            makeRequest('/classes/user/' + userId, 'PUT', user, function (err, resp, body) {
                 resp.should.have.property('statusCode', 200);
                 body.should.have.property('password').which.is.equal(user.password);
                 body.should.have.property('email').which.is.equal('jon@jonny.io');
@@ -166,7 +170,7 @@ describe('Pump Up API Routes', function() {
                 password: '999333'
             };
 
-            makeRequest('/classes/user/9932423', 'PUT', user, function(err, resp, body) {
+            makeRequest('/classes/user/9932423', 'PUT', user, function (err, resp, body) {
                 resp.should.have.property('statusCode', 404);
                 done();
             });
