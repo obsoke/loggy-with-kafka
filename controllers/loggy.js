@@ -1,4 +1,4 @@
-module.exports = (function (deps) {
+module.exports = function (deps) {
     'use strict';
 
     var fs = require('fs'),
@@ -65,4 +65,4 @@ module.exports = (function (deps) {
     return {
         log: log
     };
-})();
+};
