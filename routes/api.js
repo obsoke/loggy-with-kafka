@@ -74,9 +74,6 @@ module.exports = function (deps) {
             this.throw(404, 'User not found');
         }
 
-        // delete email field from data if it exists
-        // if (data.email) delete data.email;
-
         // update user
         var updated = yield user.update(data);
         if (!updated) {
