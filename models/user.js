@@ -1,4 +1,4 @@
-module.exports = function(deps) {
+module.exports = function (deps) {
     'use strict';
 
     // unpack deps
@@ -23,6 +23,7 @@ module.exports = function(deps) {
         freezeTableName: true
     });
 
+    // make sure table exists
     User.sync();
 
     return User;
