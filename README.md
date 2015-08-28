@@ -14,7 +14,7 @@ Kafka and PostgreSQL manually.
 2. `cd` into repo & run `[sudo] npm install`. This should also install additional dependencies such as Apache Kafka and PostgreSQL so `sudo` may be required for this step.
 
 ## Usage
-Start the API server with `npm start`.
+Start the API server with `[sudo] npm start`.
 
 You can run tests with `npm test`.
 
