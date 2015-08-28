@@ -26,7 +26,76 @@ var makeRequest = function makeRequest(path, method, data, callback) {
 };
 
 describe('Unit Tests', function () {
-    
+    describe('User', function () {
+        // dummy user data
+        var user = {
+            name: 'jon',
+            email: 'jon@jonny.io',
+            password: '12345'
+        };
+
+        it('create', function (done) {
+            // create user
+            User.create(user).then(function (newUser) {
+                newUser.name.should.equal(user.name);
+                done();
+            });
+        });
+
+        it('update (success)', function (done) {
+            // data to edit user with
+            var editUser = {
+                name: 'jim',
+                password: '56789'
+            };
+            // create user
+            User.create(user)
+                .then(function (newUser) {
+                    // edit user
+                    newUser.name = editUser.name;
+                    newUser.password = editUser.password;
+
+                    return newUser.save();
+                })
+                .then(function (savedUser) {
+                    savedUser.name.should.equal(editUser.name);
+                    savedUser.password.should.equal(editUser.password);
+                    done();
+                });
+        });
+
+        it('update (email)', function (done) {
+            // data to edit user with
+            var editUser = {
+                name: 'jim',
+                password: '56789',
+                email: 'blah@blah.io'
+            };
+            // create user
+            User.create(user)
+                .then(function (newUser) {
+                    // edit user
+                    newUser.name = editUser.name;
+                    newUser.password = editUser.password;
+                    newUser.email = editUser.email;
+
+                    return newUser.save();
+                })
+                .then(function (savedUser) {
+                    savedUser.name.should.equal(editUser.name);
+                    savedUser.password.should.equal(editUser.password);
+                    savedUser.email.should.equal(user.email);
+                    done();
+                });
+        });
+
+        afterEach(function (done) {
+            User.findOne({where: {email: 'jon@jonny.io'}}).then(function (user) {
+                if (user) user.destroy();
+                done();
+            });
+        });
+    });
 });
 describe('Integration Tests', function () {
     // before all tests, start the API
@@ -178,7 +247,7 @@ describe('Integration Tests', function () {
 
         after(function (done) {
             User.findOne({where: {email: 'jon@jonny.io'}}).then(function (user) {
-                user.destroy();
+                if (user) user.destroy();
                 done();
             });
         });

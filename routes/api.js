@@ -75,7 +75,7 @@ module.exports = function (deps) {
         }
 
         // delete email field from data if it exists
-        if (data.email) delete data.email;
+        // if (data.email) delete data.email;
 
         // update user
         var updated = yield user.update(data);
