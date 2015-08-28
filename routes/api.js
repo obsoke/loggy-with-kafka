@@ -14,11 +14,17 @@ module.exports = function (deps) {
             this.throw(400, 'Log requires at least actionId');
         }
 
-        loggy.log(data);
+        // use loggy controller to send log
+        try {
+            loggy.log(data);
+        } catch (e) {
+            this.throw(500, 'Unable to communicate with log server');
+        }
 
         this.response.status = 200;
         this.response.body = data;
 
+        // serves no real purpose other than to get jshint to shut up
         yield next;
     };
 
@@ -29,11 +35,18 @@ module.exports = function (deps) {
             this.throw(400, 'New user requires name, email and password properties.');
         }
 
-        var user = yield User.create(data).catch(function (err) {});
+        var user = yield User.create(data).catch(function (err) {
+            // This block is required to catch constraint errors
+            // (to due with the unique email constraint)
+        });
 
         if (!user) {
             this.throw(406, 'Could not create user');
         }
+
+        // everything was ok - send response
+        this.response.status = 201;
+        this.response.body = user;
 
         // create log request
         var logData = {
@@ -46,35 +59,33 @@ module.exports = function (deps) {
             json: true,
             body: logData
         });
-        if (!logResponse) {
-            /*
-             even if logging fails, we still want users
-             to be able to register. maybe we check & reset kafka/zookeeper on failure?
-             */
-        }
-
-        this.response.status = 201;
-        this.response.body = user;
     };
 
     // PUT /classes/user/:id
     var userUpdateRoute = function* (next) {
         var data = this.request.body;
         if (!data) {
-            this.throw(400, 'User update requires at least email property');
+            this.throw(400, 'Requires data to update user with.');
         }
-        // delete email field from data if it exists
-        if (data.email) delete data.email;
 
+        // find user to update;
         var user = yield User.findById(this.params.id);
         if (!user) {
             this.throw(404, 'User not found');
         }
 
+        // delete email field from data if it exists
+        if (data.email) delete data.email;
+
+        // update user
         var updated = yield user.update(data);
         if (!updated) {
             this.throw(500, 'Failed to update user');
         }
+
+        // everything was ok - send response
+        this.response.status = 200;
+        this.response.body = user;
 
         // create log request
         var logData = {
@@ -88,15 +99,6 @@ module.exports = function (deps) {
             json: true,
             body: logData
         });
-        if (!logResponse) {
-            /*
-             even if logging fails, we still want users
-             to be able to register. maybe we check & reset kafka/zookeeper on failure?
-             */
-        }
-
-        this.response.status = 200;
-        this.response.body = user;
     };
 
     return {

@@ -1,13 +1,13 @@
 'use strict';
 
-var koa = require('koa');
-var app = koa();
-var router = require('koa-router');
-var bodyParser = require('koa-bodyparser');
-var Sequelize = require('sequelize');
+var koa = require('koa'),
+    app = koa(),
+    router = require('koa-router'),
+    bodyParser = require('koa-bodyparser'),
+    Sequelize = require('sequelize');
 
-var config = require('./config');
-var PORT = process.env.PORT || config.port || 3000;
+var config = require('./config'),
+    PORT = process.env.PORT || config.port || 3000;
 
 // sequelize setup
 var sequelize = new Sequelize(config.postgresURL);
@@ -19,6 +19,8 @@ app.use(bodyParser());
 var User = require('./models/user')({sequelize: sequelize, Sequelize: Sequelize});
 
 // define routes
+// would put them in their own files depending on function
+// but with a project this size, no point
 var apiRoutes = require('./routes/api')({User: User});
 var API = new router();
 API
@@ -39,6 +41,5 @@ if (!module.parent) {
 // export app & port for test suite
 module.exports = {
     app: app,
-    port: PORT,
     User: User
 };

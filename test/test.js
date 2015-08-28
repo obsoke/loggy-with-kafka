@@ -1,17 +1,17 @@
 /* jshint mocha: true */
 'use strict';
 
-var server = require('../server');
-var app = server.app;
-var request = require('request-promise');
-var should = require('should');
-var Sequelize = require('sequelize');
+var server = require('../server'),
+    app = server.app,
+    request = require('request-promise'),
+    should = require('should'),
+    Sequelize = require('sequelize');
 
-
-var postgresURL = 'postgres://pumpup:pumpup@localhost:5432/pumpup_db';
-var sequelize = new Sequelize(postgresURL);
-var port = server.port;
-var User = server.User;
+var config = require('../config'),
+    port = config.port,
+    postgresURL = config.postgresURL,
+    sequelize = new Sequelize(postgresURL),
+    User = server.User;
 
 var testURL = 'http://localhost:' + port;
 
